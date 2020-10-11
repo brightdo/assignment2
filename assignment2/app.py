@@ -3,6 +3,7 @@ import schedule
 import time
 import datetime
 import requests
+import sys
 
 
 def yaml_loader(filepath):
@@ -12,8 +13,7 @@ def yaml_loader(filepath):
 
 
 
-
-filepath = "input2.yaml"
+filepath = str(sys.argv[1])
 fileData = yaml_loader(filepath)
 lengthF = len(fileData['Steps'])
 time = fileData['Scheduler']['when'].split()
@@ -46,8 +46,6 @@ def job():
         elif (fileData['condition']['then']['action'].startswith("::invoke")):
             getStep = fileData['condition']['then']['action'].split("::invoke:step:")[1]
             data = fileData['condition']['then']['data']
-            print("data = " + str(data))
-            print("work on step : " + str(getStep))
             fileData = yaml_loader(filepath)
             fileData = fileData['Steps'][int(getStep)-1][int(getStep)]
             # print( "fileData is now {}".format(fileData['outbound_url']) )
@@ -74,22 +72,6 @@ def job():
 
 
 def getTime(timeArray):
-    # if ( (not str(timeArray[2]).isnumeric() and timeArray != "*") and (not str(timeArray[1]).isnumeric() and timeArray != "*") and (not str(timeArray[0]).isnumeric() and timeArray != "*")):
-    #         print( "wrong input format")
-    #         print(not str(timeArray[2]).isnumeric() and timeArray != "*")
-    #         print(not str(timeArray[1]).isnumeric() and timeArray != "*")
-    #         print(not str(timeArray[0]).isnumeric() and timeArray != "*")
-    #         return None
-    # else:
-        # if(int(timeArray[0])<0 or int(timeArray[0])>59):
-        #     print("wrong input for minute")
-        #     return None
-        # if(int(timeArray[1])<0 or int(timeArray[1])>23):
-        #     print("wrong input for hour")
-        #     return None
-        # if(int(timeArray[2])<0 or int(timeArray[2])>6):
-        #     print("wrong input for day")
-        #     return None
     if( timeArray[0] != "*"):
         if( timeArray[1] != "*"):
             if( timeArray[2] != "*"):
